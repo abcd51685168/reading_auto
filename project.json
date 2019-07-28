@@ -1,0 +1,10 @@
+{
+  "name": "Reading autoscript",
+  "main": "main.js",
+  "ignore": [
+    "build"
+  ],
+  "packageName": "com.reading-autoscript",
+  "versionName": "2.1.4",
+  "versionCode": 1
+}
