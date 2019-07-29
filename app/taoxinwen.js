@@ -39,9 +39,25 @@ function read(total_time) {
     _icon.click();
     sleep(3000);
 
+    videos = text("视频").find();
+    for (let v of videos) {
+        sleep(1000);
+        if (v.bounds().centerY() * 2 < device.height) {
+            click(v.bounds().centerX(), v.bounds().centerY());
+            sleep(2000);
+        }
+    }
+
     while (total_time > 0) {
         click(108, 2169);//首页矩形框[0,2148][216,2190]，刷新新闻
         sleep(5000);
+        click(540, 600);//第一条视频矩形框
+        sleep(65000);
+        total_time = total_time - 65000;
+        back();
+        sleep(2000);
+        continue;
+
         click(540, 487);//第一条新闻矩形框[45,399][1035,535]
         sleep(3000);
 
@@ -92,53 +108,66 @@ function zhuanpan() {//疯狂大转盘
     task_button.click();
     sleep(3000);
 
+    choujiang_flag = false;
     while (true) {
         count_0 = text("0").findOne(2000);//剩余抽奖次数0次
         if (count_0) break;
 
         click(540, 1225); //领取金币坐标
         sleep(2000);
+        choujiang_flag = true;
 
         //5秒广告
-        ad = id("close").findOne(10000);
+        ad = id("close").findOne(8000);
         if (ad) {
             ad.click();//(990,155)
             sleep(1000);
-            continue
+            continue;
         }
-
-        //立即领取金币
-        get_now = text("立即领取").findOne(10000);
-        if (get_now) {
-            get_now.click();
-            sleep(1000);
-            continue
-        }
-
         //看视频翻倍
-        doub = text("观看视频 领取翻倍卡").findOne(10000);
+        doub = text("观看视频 领取翻倍卡").findOne(8000);
         if (doub) {
             doub.click();
-            id("com.coohua.xinwenzhuan:id/tt_video_ad_close").findOne().click();
+            xx = id("com.coohua.xinwenzhuan:id/tt_video_ad_close").findOne(35000);
+            if (xx) {
+                xx.click();
+            } else {
+                //点击左上角的xx, className("android.widget.ImageView")
+                click(100, 180);
+            }
             sleep(1000);
+            continue;
         }
+
+        back();
+        sleep(1000);
+
+        // //立即领取金币
+        // get_now = text("立即领取").findOne(8000);
+        // if (get_now) {
+        //     get_now.click();
+        //     sleep(1000);
+        //     continue;
+        // }
     }
     back();
     sleep(random(1000, 3000));
 
     //领取额外奖励
-    ["20金币", "40金币", "80金币", "100金币"].forEach(function (_e) {
-        jinbi = text(_e).findOne(2000);
-        if (jinbi) {
-            jinbi.click();
-            //立即领取金币
-            get_now = text("立即领取").findOne(2000);
-            if (get_now) {
-                get_now.click();
-                sleep(1000);
+    if (choujiang_flag) {
+        ["20金币", "40金币", "80金币", "100金币"].forEach(function (_e) {
+            jinbi = text(_e).findOne(2000);
+            if (jinbi) {
+                jinbi.click();
+                //立即领取金币
+                get_now = text("立即领取").findOne(2000);
+                if (get_now) {
+                    get_now.click();
+                    sleep(1000);
+                }
             }
-        }
-    });
+        })
+    }
 
     back();
     sleep(random(1000, 3000));
@@ -151,11 +180,11 @@ function toutiao() {
             launch(app_name);
             sleep(6000);
             text("我的钱包").waitFor();
-            fenhong();
-            lungqu();
-            zhuanpan();
             let total_time = 2 * 60 * 1000;//每次运行分钟数
             read(total_time);
+            fenhong();
+            lungqu();
+            //zhuanpan();
             back();
             back();
             sleep(2000);

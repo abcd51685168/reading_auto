@@ -10,9 +10,24 @@ function read(total_time) {
     task_button.click();
     sleep(3000);
 
+    videos = text("视频").find();
+    for (let v of videos) {
+        sleep(1000);
+        if (v.bounds().centerY() * 2 < device.height) {
+            click(v.bounds().centerX(), v.bounds().centerY());
+            sleep(2000);
+        }
+    }
+
     while (total_time > 0) {
         click(108, 2169);//首页矩形框[0,2148][216,2190]，刷新新闻
         sleep(5000);
+
+        click(540, 600);//第一条视频矩形框
+        sleep(60000);
+        total_time = total_time - 60000;
+        continue;
+
         click(540, 487);//第一条新闻矩形框[45,399][1035,535]
         sleep(3000);
 
@@ -191,14 +206,14 @@ function toutiao() {
             launch(app_name);
             sleep(6000);
             text("首页").waitFor();
+            let total_time = 2 * 60 * 1000;//每次运行分钟数
+            read(total_time);
             box();
             search();
             share();
             recommend();
             sleeping();
             walking();
-            let total_time = 2 * 60 * 1000;//每次运行分钟数
-            read(total_time);
             back();
             back();
             sleep(2000);
