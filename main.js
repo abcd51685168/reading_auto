@@ -40,16 +40,20 @@ let automator = Automator();
 let unlock = Unlock(automator);
 unlock.exec();
 
+total_time = 5 * 60 * 1000;
+require('./app/toutiao_lite.js')().exec(total_time);
+require('./app/quwenkankan.js')().exec(total_time);
+require('./app/taoxinwen.js')().exec(total_time);
+
 let apps = files.listDir("./app");
-apps.forEach(function (_e) {
-    log('开始运行  ' + _e);
-    //if (_e === "toutiao_lite.js")
-    try {
-        let thread = threads.start(function () {
-            require('./app/' + _e)().exec();
-        });
-        thread.join(5 * 60 * 1000);
-    } catch (e) {
-        log(e)
-    }
-});
+// apps.forEach(function (_e) {
+//     log('开始运行  ' + _e);
+//     try {
+//         let thread = threads.start(function () {
+//             /*if (_e === "quwenkankan.js")*/ require('./app/' + _e)().exec(5 * 60 * 1000);
+//         });
+//         thread.join(10 * 60 * 1000);
+//     } catch (e) {
+//         log(e)
+//     }
+// });

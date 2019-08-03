@@ -202,11 +202,10 @@ function walking() {
 function toutiao() {
     const app_name = "com.ss.android.article.lite";
     return {
-        exec: function () {
+        exec: function (total_time) {
             launch(app_name);
             sleep(6000);
             text("首页").waitFor();
-            let total_time = 2 * 60 * 1000;//每次运行分钟数
             read(total_time);
             box();
             search();

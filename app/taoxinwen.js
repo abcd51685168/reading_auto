@@ -28,32 +28,32 @@ function lungqu() {//任务大厅领取
 }
 
 function read(total_time) {
-    click(756, 2169);//任务矩形框[686,2145][826,2190]
+    click(563,283);//视频矩形框
     sleep(2000);
-    _icon = text("去阅读").findOne(5000);
-    if (!_icon) {
-        toast("[阅读文章或视频]已完成");
-        sleep(2000);
-        return;
-    }
-    _icon.click();
-    sleep(3000);
-
-    videos = text("视频").find();
-    for (let v of videos) {
-        sleep(1000);
-        if (v.bounds().centerY() * 2 < device.height) {
-            click(v.bounds().centerX(), v.bounds().centerY());
-            sleep(2000);
-        }
-    }
+    // _icon = text("去阅读").findOne(5000);
+    // if (!_icon) {
+    //     toast("[阅读文章或视频]已完成");
+    //     sleep(2000);
+    //     return;
+    // }
+    // _icon.click();
+    // sleep(3000);
+    //
+    // videos = text("视频").find();
+    // for (let v of videos) {
+    //     sleep(1000);
+    //     if (v.bounds().centerY() * 2 < device.height) {
+    //         click(v.bounds().centerX(), v.bounds().centerY());
+    //         sleep(2000);
+    //     }
+    // }
 
     while (total_time > 0) {
-        click(108, 2169);//首页矩形框[0,2148][216,2190]，刷新新闻
+        click(280, 2200);//首页矩形框[0,2148][216,2190]，刷新新闻
         sleep(5000);
-        click(540, 600);//第一条视频矩形框
-        sleep(65000);
-        total_time = total_time - 65000;
+        click(500, 1300);//第一条视频矩形框
+        sleep(35000);
+        total_time = total_time - 35000;
         back();
         sleep(2000);
         continue;
@@ -176,11 +176,10 @@ function zhuanpan() {//疯狂大转盘
 function toutiao() {
     const app_name = "com.coohua.xinwenzhuan";
     return {
-        exec: function () {
+        exec: function (total_time) {
             launch(app_name);
             sleep(6000);
             text("我的钱包").waitFor();
-            let total_time = 2 * 60 * 1000;//每次运行分钟数
             read(total_time);
             fenhong();
             lungqu();
